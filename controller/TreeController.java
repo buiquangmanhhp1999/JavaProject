@@ -4,6 +4,7 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import model.BST;
 import model.Node;
@@ -176,28 +177,16 @@ public class TreeController<T extends Comparable<T>> {
     return pl;
   }
 
-  public void displayTree(Group root) {
-    this.treeView.forEach((node, cir) -> {
-      if (cir.getLineLeft() != null) {
-        root.getChildren().add(cir.getLineLeft());
-      }
-      if (cir.getLineRight() != null) {
-        root.getChildren().add(cir.getLineRight());
-      }
-      // Display circleNode
-      root.getChildren().add(cir);
-    });
-  }
-
-
   public void createTreeViewColor(RBTree rbTree) {
     HashMap<Node, CircleNode> treeViewColor = new HashMap<>();
 
     this.treeView.forEach((node, cir) -> {
-      RBCircleNode rbCir = new RBCircleNode(cir.value, cir.getLayoutX(), cir.getLayoutY(), cir.gethGap(), rbTree.search(node.element).color);
-      rbCir.setLineLeft(cir.getLineLeft());
-      rbCir.setLineRight(cir.getLineRight());
-      treeViewColor.put(node, rbCir);
+      if (rbTree.search(node.element) != null) {
+        RBCircleNode rbCir = new RBCircleNode(cir.value, cir.getLayoutX(), cir.getLayoutY(), cir.gethGap(), rbTree.search(node.element).color);
+        rbCir.setLineLeft(cir.getLineLeft());
+        rbCir.setLineRight(cir.getLineRight());
+        treeViewColor.put(node, rbCir);
+      }
     });
 
     this.treeView = treeViewColor;
